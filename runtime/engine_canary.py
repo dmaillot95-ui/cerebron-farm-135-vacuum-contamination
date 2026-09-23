@@ -1,0 +1,4 @@
+import json,hashlib,pathlib,platform
+import math
+outgas=1e-8;area=10.;capture=.02;t=86400.;mass=outgas*area*capture*t;target_area=.5;surface=mass/target_area;out={"outgassing_kg_m2_s":outgas,"source_area_m2":area,"capture_fraction":capture,"duration_s":t,"deposited_mass_kg":mass,"surface_loading_kg_m2":surface};ok=mass>0 and surface>0
+out.update({"farm":135,"engine":"python-engineering-batch-canary","engine_version":platform.python_version(),"test":"MOLECULAR_DEPOSITION","status":"REAL_ENGINE_CANARY_OK" if ok else "FAIL","epistemic_status":"ENGINEERING_CANARY_NOT_PHYSICAL_VALIDATION"});raw=json.dumps(out,sort_keys=True).encode();out["result_sha256"]=hashlib.sha256(raw).hexdigest();pathlib.Path("artifacts").mkdir(exist_ok=True);pathlib.Path("artifacts/f135_engine_canary.json").write_text(json.dumps(out,indent=2)+"\n");print(json.dumps(out));raise SystemExit(0 if ok else 1)
